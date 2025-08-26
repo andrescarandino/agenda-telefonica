@@ -1,0 +1,12 @@
+### DELETE by ID
+DELETE http://localhost:3001/api/persons/1
+
+### POST
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+"name": "Andres Carandino",
+"number": "3574454821"
+}
+
