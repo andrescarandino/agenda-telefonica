@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 
-
+app.use(express.static('dist'));
 app.use(cors());
 app.use((request, response, next) => {
     request.requestTime = new Date();
@@ -72,9 +72,10 @@ app.delete('/api/persons/:id', (request, response) => {
 
     response.status(204).end();
 })
+
 app.post('/api/persons/', (request, response) => {
     const body = request.body;
-    const isExistName = persons.some(p => p.name.toLocaleLowerCase() === body.name.toLocaleLowerCase());
+    const isExistName = persons.some(p => p.name.toLocaleLowerCase() === body.name.toLocaleLowerCase().trim());
     if(!body.name){
       return response.status(400).json({
         error: 'name missing'
@@ -90,7 +91,7 @@ app.post('/api/persons/', (request, response) => {
     }    
     const person = {
       id: generateId(),
-      name: body.name,
+      name: body.name.trim(),
       number: body.number
     }
 
