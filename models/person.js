@@ -14,8 +14,25 @@ mongoose.connect(url)
     })
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minLength: 3,
+        required: true
+    },
+    number: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function (v) {
+                const regex = /^\d{2,3}-\d+$/
+                if (!regex.test(v)) {
+                    return false
+                }
+                return v.length >= 8
+            },
+            message: props => `${props.value} is not a valid number and min length 8 characters. for example XX-XXXXXXX o XXX-XXXXXXXX`
+        }
+    }
 })
 
 personSchema.set('toJSON', {
